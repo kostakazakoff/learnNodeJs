@@ -1,5 +1,5 @@
 const express = require('express');
-const { title } = require('process');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -9,6 +9,8 @@ app.set('view engine', 'ejs');
 // app.set('view engine', 'views_folder');
 
 app.listen(3000);
+
+app.use(morgan('dev'));
 
 app.get('/', function(req, res) {
     res.render('index', {
