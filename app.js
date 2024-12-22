@@ -5,12 +5,15 @@ const app = express();
 
 // register view engine
 app.set('view engine', 'ejs');
+
 // set views folder (when different from 'views')
 // app.set('view engine', 'views_folder');
 
 app.listen(3000);
 
-app.use(morgan('dev'));
+// middleware
+app.use(express.static('public')); //static files
+app.use(morgan('dev')); // logging requests
 
 app.get('/', function(req, res) {
     res.render('index', {
@@ -42,7 +45,5 @@ app.get('/blogs/create', (req, res) => {
 
 // 404
 app.use((req, res) => {
-    res.status(404).render('404', {
-        title: '404'
-    });
+    res.status(404).render('404', {title: '404'});
 });
