@@ -2,7 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const env = require('dotenv').config();
-const Blog = require('./models/blog');
+const blogRoutes = require('./routes/blogRoutes');
 
 const app = express();
 
@@ -34,46 +34,8 @@ app.get('/about', function (req, res) {
     });
 });
 
-// blogs routes
-
-app.get('/blogs', (req, res) => {
-    Blog.find().sort({ createdAt: -1 }) // sort by createdAt descending
-        .then(data => {
-            res.render('index', { title: 'All blogs', blogs: data });
-        })
-        .catch(err => { console.log(err) });
-});
-
-app.post('/blogs', (req, res) => {
-    const blog = new Blog(req.body);
-
-    blog.save()
-        .then(result => res.redirect('/blogs'))
-        .catch(err => { console.log(err) });
-});
-
-app.get('/blogs/create', (req, res) => {
-    res.render('create', {
-        title: 'New Blog'
-    });
-});
-
-app.get('/blog/:id', (req, res) => {
-    const id = req.params.id;
-
-    Blog.findById(id)
-        .then(data => res.render('details', { blog: data, title: 'Blog Details' }))
-        .catch(err => console.log(err));
-});
-
-app.delete('/blog/:id', (req, res) => {
-    const id = req.params.id;
-    console.log(id);
-
-    Blog.findByIdAndDelete(id)
-        .then(() => res.redirect('/blogs'))
-        .catch(err => console.log(err));
-});
+// blog routes
+app.use(blogRoutes);
 
 // 404
 app.use((req, res) => {
