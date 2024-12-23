@@ -5,7 +5,7 @@ const blog_index = (req, res) => {
         .then(data => {
             res.render('blogs/index', { title: 'All blogs', blogs: data });
         })
-        .catch(err => { console.log(err) });
+        .catch(err => res.status(404).render('404', { title: 'Something went wrong!' }));
 };
 
 const blog_details = (req, res) => {
@@ -25,7 +25,7 @@ const blog_create_post = (req, res) => {
 
     blog.save()
         .then(result => res.redirect('/'))
-        .catch(err => { console.log(err) });
+        .catch(err => res.status(404).render('404', { title: 'Something went wrong!' }));
 };
 
 const blog_delete = (req, res) => {
@@ -33,7 +33,7 @@ const blog_delete = (req, res) => {
 
     Blog.findByIdAndDelete(id)
         .then(result => res.json({redirect: '/blogs'}))
-        .catch(err => console.log(err));
+        .catch(err => res.status(404).render('404', { title: 'Something went wrong!' }));
 };
 
 module.exports = {
