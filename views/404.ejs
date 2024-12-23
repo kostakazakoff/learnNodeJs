@@ -7,12 +7,7 @@
         <%- include('./partials/nav.ejs') %>
 
             <div class="not-found content">
-                <h2>
-                    <% if (title.length) { %>
-                        <%= title } else {%>
-                            Oops! Page not found!
-                            <% } %>
-                </h2>
+                <h2><%= title %></h2>
             </div>
 
         <%- include('./partials/footer.ejs') %>
