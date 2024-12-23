@@ -15,8 +15,7 @@ const blogSchema = new Schema({
         type: String,
         required: true
     },
-    timestamps: true
-});
+}, { timestamps: true });
 
 // Create a model based on the schema
 const Blog = mongoose.model('Blog', blogSchema);
