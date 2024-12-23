@@ -20,17 +20,12 @@ app.set('view engine', 'ejs');
 
 // middleware
 app.use(express.static('public')); //static files
+app.use(express.urlencoded({extended: true})); // requests url encoding - to object
 app.use(morgan('dev')); // logging requests
 
+// redirect
 app.get('/', function (req, res) {
-    res.render('index', {
-        title: 'Home',
-        blogs: [
-            { title: 'Kosta', snippet: 'Kosta Alabala', body: 'Alabala' },
-            { title: 'Marina', snippet: 'Marina Alabala', body: 'Alabala' },
-            { title: 'Tedi', snippet: 'Tedi Alabala', body: 'Alabala' },
-        ],
-    });
+    res.redirect('/blogs');
 });
 
 app.get('/about', function (req, res) {
@@ -39,10 +34,23 @@ app.get('/about', function (req, res) {
     });
 });
 
-// redirects
-// app.get('/about-us', (req, res) => {
-//     res.redirect('about');
-// });
+// blogs routes
+
+app.get('/blogs', (req, res) => {
+    Blog.find().sort({createdAt: -1}) // sort by createdAt descending
+    .then(data => {
+        res.render('index', {title: 'All blogs', blogs: data});
+    })
+    .catch(err => {console.log(err)});
+});
+
+app.post('/blogs', (req, res) => {
+    const blog = new Blog(req.body);
+
+    blog.save()
+    .then(result => res.redirect('/blogs'))
+    .catch(err => {console.log(err)});
+});
 
 app.get('/blogs/create', (req, res) => {
     res.render('create', {
@@ -52,12 +60,28 @@ app.get('/blogs/create', (req, res) => {
 
 app.get('/add-blog', (req, res) => {
     const blog = new Blog({
-        title: 'New Blog',
+        title: 'New Blog 3',
         snippet: 'about my new blog',
         body: 'my new blog body'
     });
 
-    blog.save();
+    blog.save()
+        .then(data => res.send(data))
+        .catch(err => console.log(err));
+});
+
+app.get('/all-blogs', (req, res) => {
+    Blog.find()
+    .then(data => res.send(data))
+    .catch(err => console.log(err));
+});
+
+app.get('/blog/:id', (req, res) => {
+    const id = req.params.id;
+    
+    Blog.findById(id)
+    .then(data => res.render('details', {blog: data, title: 'Blog Details'}))
+    .catch(err => console.log(err));
 });
 
 // 404
