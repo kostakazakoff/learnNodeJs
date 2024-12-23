@@ -1,8 +1,8 @@
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const env = require('dotenv').config();
 const blogRoutes = require('./routes/blogRoutes');
+require('dotenv').config();
 
 const app = express();
 
@@ -29,13 +29,11 @@ app.get('/', function (req, res) {
 });
 
 app.get('/about', function (req, res) {
-    res.render('about', {
-        title: 'About'
-    });
+    res.render('about', { title: 'About' });
 });
 
 // blog routes
-app.use(blogRoutes);
+app.use('/blogs', blogRoutes);
 
 // 404
 app.use((req, res) => {

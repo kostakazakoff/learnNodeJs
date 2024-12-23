@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<%- include('./partials/head.ejs') %>
+<%- include('../partials/head.ejs') %>
 
     <body>
 
-        <%- include('./partials/nav.ejs') %>
+        <%- include('../partials/nav.ejs') %>
 
             <div class="details content">
                 <h2>
@@ -15,15 +15,17 @@
                         <%= blog.body%>
                     </p>
                 </div>
-                <a class="delete" data-doc="<%= blog._id %>" id="delete">Delete</a>
+                <a class="delete" data-doc="<%= blog._id %>" id="delete">
+                    <img src="/trash-can-solid.svg" alt="delete">
+                </a>
             </div>
 
-            <%- include('./partials/footer.ejs') %>
+            <%- include('../partials/footer.ejs') %>
 
                 <script>
                     const trashcan = document.getElementById('delete');
                     trashcan.addEventListener('click', (e) => {
-                        const endpoint = `/blog/${trashcan.dataset.doc}`;
+                        const endpoint = `/blogs/${trashcan.dataset.doc}`;
                         fetch(endpoint, {
                             method: 'DELETE',
                         })
