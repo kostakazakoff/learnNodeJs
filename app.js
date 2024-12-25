@@ -6,7 +6,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const dbURI = process.env.MONGODBURI;
+const dbURI = process.env.MONGODB_URI;
 
 mongoose.connect(dbURI)
     .then(result => app.listen(PORT, () => {
