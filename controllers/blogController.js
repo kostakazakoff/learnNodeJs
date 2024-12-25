@@ -9,11 +9,11 @@ const blog_index = (req, res) => {
 };
 
 const blog_details = (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
     Blog.findById(id)
         .then(data => res.render('blogs/details', { blog: data, title: 'Blog Details' }))
-        .catch(err => res.status(404).render('404', {title: 'Blog not found!'}));
+        .catch(err => res.status(404).render('404', { title: 'Blog not found!' }));
 };
 
 const blog_create_get = (req, res) => {
@@ -29,10 +29,10 @@ const blog_create_post = (req, res) => {
 };
 
 const blog_delete = (req, res) => {
-    const id = req.params.id;
+    const { id } = req.params;
 
     Blog.findByIdAndDelete(id)
-        .then(result => res.json({redirect: '/blogs'}))
+        .then(result => res.json({ redirect: '/blogs' }))
         .catch(err => res.status(404).render('404', { title: 'Something went wrong!' }));
 };
 

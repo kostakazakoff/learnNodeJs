@@ -5,11 +5,13 @@ const blogRoutes = require('./routes/blogRoutes');
 require('dotenv').config();
 
 const app = express();
-
-// MongoDB connection URI
+const PORT = process.env.PORT || 3000;
 const dbURI = process.env.MONGODBURI;
+
 mongoose.connect(dbURI)
-    .then(result => app.listen(3000))
+    .then(result => app.listen(PORT, () => {
+        console.log(`Listening on port http://localhost:${PORT}`);
+    }))
     .catch(err => console.error(err));
 
 // register view engine
